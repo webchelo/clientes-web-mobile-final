@@ -2,11 +2,12 @@
 import MainH1 from '../components/MainH1.vue';
 import MainButton from '../components/MainButton.vue';
 import MainLabel from '../components/MainLabel.vue';
+import AlertPop from '../components/AlertPop.vue';
 import { register } from '../services/auth';
 
 export default {
     name: 'Register',
-    components: { MainH1, MainButton, MainLabel },
+    components: { MainH1, MainButton, MainLabel, AlertPop },
     data() {
         return {
             user: {
@@ -14,6 +15,7 @@ export default {
                 password: '',
             },
             loading: false,
+            wrongCredentials: false,
         };
     },
     methods: {
@@ -25,7 +27,8 @@ export default {
                     path: '/perfil',
                 })
             } catch (error) {
-                console.error('[Register] Error en el registro de usuario:', error)
+                console.error('[Register] Error en el registro de usuario:', error);
+                this.wrongCredentials = true;
             }
             this.loading = false;
         }
@@ -69,6 +72,7 @@ export default {
                 required
             >
         </div>
+        <AlertPop v-if="wrongCredentials">Hay un error en el registro.</AlertPop>
         <MainButton>Crear Cuenta</MainButton>
     </form>
 </template>

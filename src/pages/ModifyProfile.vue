@@ -2,11 +2,12 @@
 import SendButton from '../components/SendButton.vue';
 import MainH1 from '../components/MainH1.vue';
 import MainLabel from '../components/MainLabel.vue';
+import MainButton from '../components/MainButton.vue';
 import { subscribeToAuth, updateUser } from '../services/auth';
 
 export default {
     name: 'ModifyProfile',
-    components: { SendButton, MainH1, MainLabel },
+    components: { SendButton, MainH1, MainLabel, MainButton },
     data() {
         return {
             userProfile: {
@@ -56,6 +57,7 @@ export default {
 }
 </script>
 <template>
+    <router-link :to="'/perfil'"><MainButton>Volver</MainButton></router-link>
     <MainH1 class="mt-4">Editar Perfil</MainH1>
     <p>{{ authUser.email }}</p> 
 

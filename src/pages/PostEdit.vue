@@ -4,6 +4,7 @@ import MainH1 from '../components/MainH1.vue';
 import SendButton from '../components/SendButton.vue';
 import Subtitle from '../components/Subtitle.vue';
 import MainLabel from '../components/MainLabel.vue';
+import MainButton from '../components/MainButton.vue'
 import { subscribeToAuth } from '../services/auth';
 import { savePost, subscribeToAllPosts } from '../services/post';
 import { getPostById } from '../services/post-content';
@@ -11,7 +12,7 @@ import { editPost } from '../services/post';
 
 export default {
     name: 'PostEdit',
-    components: { MainH1, Loader, SendButton, Subtitle, MainLabel },
+    components: { MainH1, Loader, SendButton, Subtitle, MainLabel, MainButton },
     data() {
         return {
             //newPost: {
@@ -24,6 +25,7 @@ export default {
             oldPost: {
                 title: null,
                 content: null,
+                id: null,
             },
             postsLoaded: false,
             unsubscribeFromPosts: () => {},
@@ -41,7 +43,8 @@ export default {
 
             editPost({
                 content: this.oldPost.content,
-                title: this.oldPost.title
+                title: this.oldPost.title,
+                id: this.oldPost.id,
             }, this.$route.params.id).then(() => this.creatingPost = false);
         },
         /**
@@ -68,7 +71,7 @@ export default {
 
 <template>
     <MainH1>Posts</MainH1>
-    
+    <router-link :to="`/post/${oldPost.id}`"><MainButton>Volver</MainButton></router-link>
     <section>
         <div class="flex gap-8 justify-between">
             <section class="w-3/12">

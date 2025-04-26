@@ -13,6 +13,7 @@ export async function getPostById(id) {
 
     return {
         id: postDoc.id,
+        user_id: postDoc.data().user_id,
         email: postDoc.data().email,
         content: postDoc.data().content,
         title: postDoc.data().title,

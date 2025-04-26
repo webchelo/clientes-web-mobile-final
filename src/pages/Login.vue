@@ -2,11 +2,12 @@
 import MainH1 from '../components/MainH1.vue';
 import MainLabel from '../components/MainLabel.vue';
 import MainButton from '../components/MainButton.vue';
+import AlertPop from '../components/AlertPop.vue';
 import { login } from '../services/auth';
 
 export default {
     name: 'Login',
-    components: { MainH1, MainLabel, MainButton },
+    components: { MainH1, MainLabel, MainButton, AlertPop },
     data() {
         return {
             user: {
@@ -14,6 +15,7 @@ export default {
                 password: '',
             },
             loading: false,
+            wrongCredentials: false,
         };
     },
     methods: {
@@ -25,7 +27,8 @@ export default {
                     path: '/perfil',
                 });
             } catch (error) {
-                console.error('[Login handleSubmit] ', error)
+                console.error('[Login handleSubmit] ', error);
+                this.wrongCredentials = true;
             }
             this.loading = false;
         }
@@ -60,6 +63,7 @@ export default {
                 v-model="user.password"
             >
         </div>
+        <AlertPop v-if="wrongCredentials">La dirección de Email o la contraseña son erroneas.</AlertPop>
         <MainButton>Ingresar</MainButton>
     </form>
 </template>

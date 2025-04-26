@@ -4,13 +4,14 @@ import MainH1 from '../components/MainH1.vue';
 import UserProfileData from '../components/UserProfileData.vue';
 import Subtitle from '../components/Subtitle.vue';
 import MiniButton from '../components/MiniButton.vue';
+import MainButton from '../components/MainButton.vue'
 import { subscribeToAuth } from '../services/auth';
 import { subscribeToUserPosts } from '../services/my-profile';
 import { getUserProfileById } from '../services/user-profile';
 
 export default {
     name: 'UserProfile',
-    components: { MainH1, Loader, UserProfileData, Subtitle, MiniButton },
+    components: { MainH1, Loader, UserProfileData, Subtitle, MiniButton, MainButton },
     data() {
         return {
             user: {
@@ -53,6 +54,7 @@ export default {
     <MainH1>Perfil</MainH1>
 
     <template v-if="authUser.fullyLoaded">
+        <router-link :to="'/posts'"><MainButton>Volver</MainButton></router-link>
         <Subtitle class="mt-4">Datos del usuario {{ user.email }}</Subtitle>
         <UserProfileData :user="user" />
         <template v-if="posts.length > 0">

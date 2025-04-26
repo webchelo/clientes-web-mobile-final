@@ -20,6 +20,7 @@ export default {
 
             post: {
                 id: null,
+                user_id: null,
                 email: null,
                 content: null,
                 title: null,
@@ -80,9 +81,10 @@ export default {
 </script>
 
 <template>
+    <router-link :to="'/posts'"><MainButton>Volver</MainButton></router-link>
     <MainH1 class="mb-1 mt-4">{{ post.title }}</MainH1>
     
-    <p>Por {{ post.email }}</p>
+    <p><router-link :to="`/usuario/${post.user_id}`">Por {{ post.email }}</router-link></p>
     <p class="mb-2">{{ post.content }}</p>
 
     <router-link :to="`/posts/editar/foto/${post.id}`" v-if="authUser.email === post.email">
@@ -94,8 +96,10 @@ export default {
         </template>
     </router-link>
 
+    <router-link :to="`/edit/${post.id}`" v-if="authUser.email === post.email"><MiniButton class="mt-2">Editar Contenido</MiniButton></router-link>
+
     <div class="mt-4" v-if="post.img">
-        <img :src="post.img" alt="" class="w-[30rem] rounded border border-4 border-yellow-600">
+        <img :src="post.img" alt="" class="w-[30rem] rounded border-4 border-yellow-600">
     </div>
 
     <Subtitle class="mt-4">Comentarios</Subtitle>

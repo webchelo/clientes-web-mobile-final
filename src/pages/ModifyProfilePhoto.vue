@@ -38,6 +38,7 @@ export default {
 }
 </script>
 <template>
+    <router-link :to="'/perfil'"><MainButton>Volver</MainButton></router-link>
     <MainH1>Editar mi foto de perfil</MainH1>
     <form
         action="#"

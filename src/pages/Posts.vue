@@ -63,6 +63,11 @@ export default {
         },
         
     },
+    computed: {
+        sortedPosts() {
+            return [...this.posts].sort((a, b) => b.created_at - a.created_at);
+        }
+    },
     mounted() {
         this.unsubscribeFromPosts = subscribeToAllPosts(newPosts => {
             this.posts = newPosts;
@@ -136,13 +141,14 @@ export default {
                         v-if="postsLoaded"
                     >
                         <li 
-                            v-for="post in posts"
+                            v-for="post in sortedPosts"
                             class="mb-2 border border-gray-300 p-4 rounded shadow-xl"
                         >
+                        <router-link :to="`/post/${post.id}`">
                             <div class="flex justify-between">
                                 <div>
                                     <p>
-                                    <router-link :to="`/post/${post.id}`"><h2 class="text-4xl">{{ post.title }}</h2></router-link>
+                                    <h2 class="text-4xl">{{ post.title }}</h2>
                                     <b>Por
                                         <router-link 
                                             :to="`/usuario/${post.user_id}`"
@@ -157,7 +163,7 @@ export default {
                             <div v-if="authUser.email === post.email">
                                 <router-link :to="`/edit/${post.id}`"><MiniButton class="mt-2">Editar</MiniButton></router-link>
                             </div>
-                            
+                        </router-link>    
                         </li>
                     </ul>
                     <Loader v-else/>

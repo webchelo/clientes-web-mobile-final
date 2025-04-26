@@ -93,6 +93,7 @@ export default {
 </script>
 
 <template>
+    <router-link :to="`/post/${post.id}`"><MainButton>Volver</MainButton></router-link>
     <h1 class="text-4xl">Subir una foto</h1>
 
     <form 
