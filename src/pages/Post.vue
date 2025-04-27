@@ -1,4 +1,5 @@
 <script>
+import AlertPop from '../components/AlertPop.vue';
 import Loader from '../components/Loader.vue';
 import MainButton from '../components/MainButton.vue';
 import MainH1 from '../components/MainH1.vue';
@@ -10,14 +11,14 @@ import { createComment, getPostById, subscribeToComments } from '../services/pos
 
 export default {
     name: 'Post',
-    components: { MainH1, Loader, MainButton, MiniButton, Subtitle },
+    components: { MainH1, Loader, MainButton, MiniButton, Subtitle, AlertPop },
     data() {
         return {
             newComment: {
                 comment: '',
             },
             creatingPost: false,
-
+            showCommentError: false,
             post: {
                 id: null,
                 user_id: null,
@@ -39,23 +40,28 @@ export default {
     },
     methods: {
         sendComment() {
+            
+            if (!this.newComment.comment.trim()) {
+                this.showCommentError = true;
+                return; 
+            }
+
+            this.showCommentError = false;
             createComment(this.post.id, {
                 user_id: this.authUser.id,
                 email: this.authUser.email,
                 comment: this.newComment.comment,
-            })
+            });
             this.newComment.comment = "";
         },
-        /**
-         * 
-         * @param {Date} date 
-         */
+        
         formatDate(date) {
             return Intl.DateTimeFormat('es', {
                 year: 'numeric', month: '2-digit', day: '2-digit',
                 hour: '2-digit', minute: '2-digit', second: '2-digit',
             }).format(date).replace(',', '');
         },
+        
         handleFileSelection(event) {
             this.img = event.target.files[0];
             
@@ -121,7 +127,13 @@ export default {
             id="comment"
             v-model="newComment.comment"
             class="border border-yellow-600 mt-4 block w-[30rem]"
+            :class="{'border-red-500': showCommentError}"
+            placeholder="Escribe tu comentario aquí..."
         ></textarea>
+        
+        <AlertPop v-if="showCommentError">
+            Error: El comentario no puede estar vacío
+        </AlertPop>
         
         <MainButton class="mt-4">Enviar</MainButton>
     </form>

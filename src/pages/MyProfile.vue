@@ -6,19 +6,12 @@ import MiniButton from '../components/MiniButton.vue';
 import Subtitle from '../components/Subtitle.vue';
 import { subscribeToAuth } from '../services/auth';
 import { subscribeToUserPosts } from '../services/my-profile';
-// import { getUserProfileById } from '../services/user-profile';
 
 export default {
     name: 'MyProfile',
     components: { MainH1, Loader, UserProfileData, MiniButton, Subtitle },
     data() {
         return {
-            //userData: {
-            //    id: null,
-            //    name: null,
-            //    email: null,
-            //    pet: null,
-            //},
             authUser: {
                 id: null,
                 email: null,
@@ -38,15 +31,15 @@ export default {
     },
     async mounted() {
         this.unsubscribeFromAuth = subscribeToAuth(newUserData => this.authUser = newUserData);
-        //this.userData = await getUserProfileById(this.authUser.id)
-
+        
         this.unsubscribeFromPosts = subscribeToUserPosts(newPosts => {
             this.posts = newPosts;
         }, this.authUser.email);
     },
     unmounted() {
         this.unsubscribeFromAuth();
-    }
+    },
+    
 }
 </script>
 

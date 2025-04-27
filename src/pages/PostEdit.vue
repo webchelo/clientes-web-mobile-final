@@ -9,18 +9,15 @@ import { subscribeToAuth } from '../services/auth';
 import { savePost, subscribeToAllPosts } from '../services/post';
 import { getPostById } from '../services/post-content';
 import { editPost } from '../services/post';
+import AlertPop from '../components/AlertPop.vue';
 
 export default {
     name: 'PostEdit',
-    components: { MainH1, Loader, SendButton, Subtitle, MainLabel, MainButton },
+    components: { MainH1, Loader, SendButton, Subtitle, MainLabel, MainButton, AlertPop },
     data() {
         return {
-            //newPost: {
-            //    id: '',
-            //    content: '',
-            //    title: '',
-            //},
             creatingPost: false,
+            showValidationError: false, 
 
             oldPost: {
                 title: null,
@@ -38,19 +35,31 @@ export default {
         }
     },
     methods: {
-        sendEditedPost() {
-            this.creatingPost = true;
+        async sendEditedPost() {
+            
+            if (!this.oldPost.title?.trim() || !this.oldPost.content?.trim()) {
+                this.showValidationError = true;
+                return; 
+            }
 
-            editPost({
-                content: this.oldPost.content,
-                title: this.oldPost.title,
-                id: this.oldPost.id,
-            }, this.$route.params.id).then(() => this.creatingPost = false);
+            this.creatingPost = true;
+            this.showValidationError = false;
+
+            try {
+                await editPost({
+                    content: this.oldPost.content,
+                    title: this.oldPost.title,
+                    id: this.oldPost.id,
+                }, this.$route.params.id);
+                
+                this.$router.push(`/post/${this.oldPost.id}`);
+            } catch (error) {
+                console.error("Error al editar el post:", error);
+                this.showValidationError = true;
+            } finally {
+                this.creatingPost = false;
+            }
         },
-        /**
-         * 
-         * @param {Date} date 
-         */
         formatDate(date) {   
             return Intl.DateTimeFormat('es', {
                 year: 'numeric', month: '2-digit', day: '2-digit',
@@ -81,9 +90,7 @@ export default {
                     @submit.prevent="sendEditedPost"
                 >
                     <div class="mb-3">
-                        <span
-                            class="block mb-2"
-                        >Email</span>
+                        <span class="block mb-2">Email</span>
                         <span>{{ authUser.email }}</span>
                     </div>
                     <div class="mb-3">
@@ -96,7 +103,6 @@ export default {
                             class="w-full p-2 border border-gray-300 rounded disabled:bg-gray-100"
                             :disabled="creatingPost"
                             v-model="oldPost.title"
-                            required
                         />
                     </div>
                     <div class="mb-3">
@@ -109,14 +115,16 @@ export default {
                             class="w-full p-2 border border-gray-300 rounded disabled:bg-gray-100"
                             :disabled="creatingPost"
                             v-model="oldPost.content"
-                            required
                         ></textarea>
                     </div>
-                    <SendButton 
-                        :disabled="creatingPost"
-                    >
-                        <template   v-if="!creatingPost">Enviar</template>
-                        <Loader     v-else />
+                    
+                    <AlertPop v-if="showValidationError">
+                        Hay un error en la edición del Post: Todos los campos son requeridos.
+                    </AlertPop>
+                    
+                    <SendButton :disabled="creatingPost">
+                        <template v-if="!creatingPost">Enviar</template>
+                        <Loader v-else />
                     </SendButton>
                 </form>
             </section>

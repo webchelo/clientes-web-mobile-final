@@ -9,16 +9,22 @@ import { getFileURL, uploadFile } from "./file-storage";
  * @param {{email: string, content: string}} data 
  * @returns {Promise<null>}
  */
-export function savePost(data, img) {
-    const refPosts = collection(db, 'posts');
-
-    return addDoc(refPosts, {
-        ...data,
-        created_at: serverTimestamp(),
-    })
-        .then(async doc => {
-        });
-}
+export async function savePost(postData, imageFile) {
+    
+    const postRef = await addDoc(collection(db, "posts"), {
+      ...postData,
+      created_at: serverTimestamp()
+    });
+    
+    
+    if (imageFile) {
+      const imageUrl = await updateImg(imageFile, postRef.id);
+      await updateDoc(postRef, { img: imageUrl });
+    }
+    
+    return postRef.id;
+  }
+  
 
 /**
  * Permite editar un Post
@@ -59,7 +65,7 @@ export function subscribeToAllPosts(callback) {
                 email: doc.data().email,
                 title: doc.data().title,
                 content: doc.data().content,
-                created_at: doc.data().created_at.toDate(),
+                created_at: doc.data().created_at?.toDate() || new Date(),
                 img: doc.data().img,
             }
         });
@@ -87,6 +93,7 @@ export async function updateImg(imgData, id) {
 
         return Promise.all([storagePromise]);
     } catch (error) {
+        console.error("Error al actualizar la imagen:", error);
         throw error;
     }
 }

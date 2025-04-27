@@ -118,16 +118,18 @@ export async function updateUser({displayName, pet, petBio}) {
 export async function updateUserPhoto(photo) {
     try {
         const fileName = `users/${userData.id}/avatar.${getExtensionFromFile(photo)}`;
-
         await uploadFile(fileName, photo);
-
         const photoURL = await getFileURL(fileName);
 
-        const authPromise = updateProfile(auth.currentUser, {photoURL});
+        // Actualiza Firebase Auth y Firestore
+        const authPromise = updateProfile(auth.currentUser, { photoURL });
+        const storagePromise = updateUserProfile(userData.id, { photoURL });
+        await Promise.all([authPromise, storagePromise]);
 
-        const storagePromise = updateUserProfile(userData.id, {photoURL})
+       
+        setUserData({ photoURL }); // Esto actualiza userData y llama a notifyAll()
 
-        return Promise.all([authPromise, storagePromise]);
+        return photoURL;
     } catch (error) {
         throw error;
     }
