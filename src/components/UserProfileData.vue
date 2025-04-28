@@ -32,7 +32,7 @@ export default {
                 v-if="user.photoURL"
                 :src="user.photoURL"
                 alt=""
-                class="w-[30rem] rounded border border-4 border-yellow-600"
+                class="w-[30rem] rounded border-4 border-yellow-600"
             >
         </section>
     </div>

@@ -55,6 +55,7 @@ export default {
         const postId = await savePost({
             user_id: this.authUser.id,
             email: this.authUser.email,
+            displayName: this.authUser.displayName,
             content: this.newPost.content,
             title: this.newPost.title,
         });
@@ -220,7 +221,7 @@ export default {
                                 <p class="text-gray-600 mb-2">
                                 Por 
                                 <router-link :to="`/usuario/${post.user_id}`" class="text-blue-600">
-                                    {{ post.email }}
+                                    {{ post.displayName ? post.displayName : post.email.split('@')[0] }}
                                 </router-link>
                                 </p>
                                 <p class="mb-3">{{ post.content }}</p>

@@ -63,6 +63,7 @@ export function subscribeToAllPosts(callback) {
                 id: doc.id,
                 user_id: doc.data().user_id,
                 email: doc.data().email,
+                displayName: doc.data().displayName,
                 title: doc.data().title,
                 content: doc.data().content,
                 created_at: doc.data().created_at?.toDate() || new Date(),

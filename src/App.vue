@@ -11,6 +11,7 @@ export default {
             authUser: {
                 id: null,
                 email: null,
+                displayName: null,
             }
         };
     },
@@ -50,7 +51,7 @@ export default {
                             <button type="submit">Cerrar Sesión</button>
                         </form>
                     </li>
-                    <li><router-link to="/perfil">{{ authUser.email }} </router-link></li>
+                    <li><router-link to="/perfil">{{ authUser.displayName ? authUser.displayName : authUser.email.split('@')[0] }} </router-link></li>
                     <img :src="authUser.photoURL" alt="">
                 </template>
             </ul>

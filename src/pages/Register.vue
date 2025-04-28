@@ -72,7 +72,7 @@ export default {
                 required
             >
         </div>
-        <AlertPop v-if="wrongCredentials">Hay un error en el registro.</AlertPop>
+        <AlertPop v-if="wrongCredentials">Hay un error en el registro. La longitud mínima de la contraseña debe ser de 6 caracteres.</AlertPop>
         <MainButton>Crear Cuenta</MainButton>
     </form>
 </template>
