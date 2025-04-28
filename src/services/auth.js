@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { confirmPasswordReset, createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from "./firebase";
 import { createUserProfile, getUserProfileById, updateUserProfile } from "./user-profile";
 import { getFileURL, uploadFile } from "./file-storage";
@@ -135,6 +135,51 @@ export async function updateUserPhoto(photo) {
     }
 }
 
+
+export const PasswordService = {
+    // Enviar correo para restablecer contraseña
+    async sendPasswordResetEmail(email) {
+      try {
+        await sendPasswordResetEmail(auth, email);
+        return { success: true, message: 'Correo de restablecimiento enviado' };
+      } catch (error) {
+        return { success: false, message: this.getErrorMessage(error.code) };
+      }
+    },
+  
+    // Cambiar contraseña (requiere que el usuario esté autenticado)
+    async changePassword(newPassword) {
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+          
+          if (!user) {
+            return { success: false, message: 'No hay usuario autenticado' };
+          }
+          
+          await updatePassword(user, newPassword);
+          return { success: true, message: 'Contraseña actualizada con éxito' };
+          
+        } catch (error) {
+          return { success: false, message: this.getErrorMessage(error.code) };
+        }
+      },
+    // Manejo de errores
+  getErrorMessage(errorCode) {
+    switch (errorCode) {
+      case 'auth/user-not-found':
+        return 'No existe un usuario con este correo electrónico';
+      case 'auth/wrong-password':
+        return 'Contraseña incorrecta';
+      case 'auth/weak-password':
+        return 'La contraseña es demasiado débil';
+      case 'auth/requires-recent-login':
+        return 'Por favor, vuelve a iniciar sesión para cambiar tu contraseña';
+      default:
+        return 'Ocurrió un error. Por favor, inténtalo de nuevo';
+    }
+  }
+}  
 /**
  * Desloguea al usuario
  *

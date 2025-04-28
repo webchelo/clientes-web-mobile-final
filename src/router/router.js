@@ -11,18 +11,22 @@ import ModifyProfilePhoto from "../pages/ModifyProfilePhoto.vue";
 import PostUploadImg from "../pages/PostUploadImg.vue";
 import { subscribeToAuth } from "../services/auth";
 import ModifyProfile from "../pages/ModifyProfile.vue";
+import ModifyPassword from "../pages/ModifyPassword.vue";
+import PasswordRestart from "../pages/PasswordRestart.vue"
 
 const routes = [
     { path: '/',                        component: Home, },
     { path: '/iniciar-sesion',          component: Login, },
     { path: '/registro',                component: Register, },
     { path: '/posts',                   component: Posts,               meta: { requiresAuth: true } },
-    { path: '/posts/editar/foto/:id',                   component: PostUploadImg,               meta: { requiresAuth: true } },
+    { path: '/posts/editar/foto/:id',   component: PostUploadImg,       meta: { requiresAuth: true } },
     { path: '/post/:id',                component: Post,                meta: { requiresAuth: true } },
     { path: '/edit/:id',                component: PostEdit,            meta: { requiresAuth: true } },
     { path: '/perfil',                  component: MyProfile,           meta: { requiresAuth: true } },
-    { path: '/perfil/editar',              component: ModifyProfile,       meta: { requiresAuth: true } },
-    { path: '/perfil/editar/foto',              component: ModifyProfilePhoto,  meta: { requiresAuth: true } },
+    { path: '/perfil/editar',           component: ModifyProfile,       meta: { requiresAuth: true } },
+    { path: '/perfil/editar/foto',      component: ModifyProfilePhoto,  meta: { requiresAuth: true } },
+    { path: '/perfil/editar/password',  component: ModifyPassword,      meta: { requiresAuth: true } },
+    { path: '/perfil/editar/password/restart',  component: PasswordRestart,      meta: { requiresAuth: true } },
     { path: '/usuario/:id',             component: UserProfile,         meta: { requiresAuth: true } },
 ];
 

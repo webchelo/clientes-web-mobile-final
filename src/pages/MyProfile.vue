@@ -49,6 +49,7 @@ export default {
     <template v-if="authUser.fullyLoaded">
         <router-link to="/perfil/editar"><MiniButton class="mr-4">Editar Perfil</MiniButton></router-link>
         <router-link to="/perfil/editar/foto"><MiniButton>Editar mi foto</MiniButton></router-link>
+        <router-link to="/perfil/editar/password"><MiniButton>Editar mi contraseña</MiniButton></router-link>
 
         <Subtitle class="mt-4">Mis datos ({{ authUser.email }})</Subtitle>
         <UserProfileData :user="authUser" />
