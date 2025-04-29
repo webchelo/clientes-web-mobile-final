@@ -1,13 +1,13 @@
 <script>
 import MainH1 from '../components/MainH1.vue';
-import MainLabel from '../components/MainLabel.vue';
 import MainButton from '../components/MainButton.vue';
+import MainInput from '../components/MainInput.vue';  // Importamos MainInput
 import AlertPop from '../components/AlertPop.vue';
 import { login } from '../services/auth';
 
 export default {
     name: 'Login',
-    components: { MainH1, MainLabel, MainButton, AlertPop },
+    components: { MainH1, MainButton, AlertPop, MainInput },  // Añadimos MainInput a los componentes
     data() {
         return {
             user: {
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl w-full flex bg-white rounded-xl shadow-lg overflow-hidden">
             <!-- Columna izquierda: Imagen del animal -->
             <div class="hidden md:block md:w-1/2 bg-yellow-100">
@@ -51,43 +51,33 @@ export default {
             <!-- Columna derecha: Formulario -->
             <div class="w-full md:w-1/2 p-8 sm:p-12">
                 <div class="text-center mb-8">
-                    <MainH1 class="text-3xl font-extrabold text-gray-900">Iniciar Sesión</MainH1>
+                    <MainH1 class="font-extrabold">Iniciar Sesión</MainH1>
                     <p class="mt-2 text-sm text-gray-600">
                         Accede a tu cuenta para disfrutar de nuestros servicios
                     </p>
                 </div>
 
                 <form @submit.prevent="handleSubmit" class="space-y-6">
-                    <div>
-                        <MainLabel for="email" class="block text-sm font-medium text-gray-700">
-                            Email
-                        </MainLabel>
-                        <input
-                            type="email"
-                            id="email"
-                            class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 disabled:bg-gray-100"
-                            :disabled="loading"
-                            v-model="user.email"
-                            required
-                            placeholder="tu@email.com"
-                        >
-                    </div>
+                    <MainInput
+                        id="email"
+                        type="email"
+                        label="Email"
+                        v-model="user.email"
+                        :disabled="loading"
+                        required
+                        placeholder="tu@email.com"
+                    />
 
-                    <div>
-                        <MainLabel for="password" class="block text-sm font-medium text-gray-700">
-                            Contraseña
-                        </MainLabel>
-                        <input
-                            type="password"
-                            id="password"
-                            class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 disabled:bg-gray-100"
-                            :disabled="loading"
-                            v-model="user.password"
-                            required
-                            placeholder="••••••••"
-                            minlength="6"
-                        >
-                    </div>
+                    <MainInput
+                        id="password"
+                        type="password"
+                        label="Contraseña"
+                        v-model="user.password"
+                        :disabled="loading"
+                        required
+                        placeholder="********"
+                        :minlength="6"
+                    />
 
                     <AlertPop v-if="wrongCredentials" class="mt-4">
                         La dirección de Email o la contraseña son incorrectas.
