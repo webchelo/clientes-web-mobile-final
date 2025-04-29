@@ -79,55 +79,105 @@ export default {
 </script>
 
 <template>
-    <MainH1>Posts</MainH1>
-    <router-link :to="`/post/${oldPost.id}`"><MainButton>Volver</MainButton></router-link>
-    <section>
-        <div class="flex gap-8 justify-between">
-            <section class="w-3/12">
-                <Subtitle>Modificar Post</Subtitle>
-                <form 
-                    action="#"
-                    @submit.prevent="sendEditedPost"
-                >
-                    <div class="mb-3">
-                        <span class="block mb-2">Email</span>
-                        <span>{{ authUser.email }}</span>
-                    </div>
-                    <div class="mb-3">
-                        <MainLabel 
-                            for="title"
-                            class="block mb-2"
-                        >Título</MainLabel>
-                        <input
-                            id="title"
-                            class="w-full p-2 border border-gray-300 rounded disabled:bg-gray-100"
-                            :disabled="creatingPost"
-                            v-model="oldPost.title"
-                        />
-                    </div>
-                    <div class="mb-3">
-                        <MainLabel 
-                            for="post"
-                            class="block mb-2"
-                        >Mensaje</MainLabel>
-                        <textarea 
-                            id="post"
-                            class="w-full p-2 border border-gray-300 rounded disabled:bg-gray-100"
-                            :disabled="creatingPost"
-                            v-model="oldPost.content"
-                        ></textarea>
-                    </div>
-                    
-                    <AlertPop v-if="showValidationError">
-                        Hay un error en la edición del Post: Todos los campos son requeridos.
-                    </AlertPop>
-                    
-                    <SendButton :disabled="creatingPost">
-                        <template v-if="!creatingPost">Enviar</template>
-                        <Loader v-else />
-                    </SendButton>
-                </form>
-            </section>
+    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-5xl mx-auto">
+        <!-- Header y botón de volver -->
+        <div class="flex justify-between items-center mb-8">
+          <MainH1 class="text-2xl sm:text-3xl font-bold text-gray-900">Editar Publicación</MainH1>
+          <router-link 
+            :to="`/post/${oldPost.id}`"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Volver al post
+          </router-link>
         </div>
-    </section>
-</template>
+  
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Editando publicación de {{ authUser.email }}
+            </h3>
+          </div>
+          
+          <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <form @submit.prevent="sendEditedPost" class="divide-y divide-gray-200">
+              <!-- Sección de título -->
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div>
+                  <label for="title" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                    Título <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    id="title"
+                    v-model="oldPost.title"
+                    :disabled="creatingPost"
+                    class="max-w-lg block w-full shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md disabled:bg-gray-100"
+                    :class="{ 'border-red-500': showValidationError && !oldPost.title?.trim() }"
+                  >
+                </div>
+              </div>
+  
+              <!-- Sección de contenido -->
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div>
+                  <label for="content" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                    Contenido <span class="text-red-500">*</span>
+                  </label>
+                </div>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea
+                    id="content"
+                    rows="6"
+                    v-model="oldPost.content"
+                    :disabled="creatingPost"
+                    class="max-w-lg shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border border-gray-300 rounded-md disabled:bg-gray-100"
+                    :class="{ 'border-red-500': showValidationError && !oldPost.content?.trim() }"
+                  ></textarea>
+                </div>
+              </div>
+  
+              <!-- Mensajes de error -->
+              <div v-if="showValidationError" class="px-4 py-3 bg-red-50 sm:px-6">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">
+                      Error: Todos los campos marcados con * son obligatorios
+                    </h3>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Botón de enviar -->
+              <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <button
+                  type="submit"
+                  :disabled="creatingPost"
+                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span v-if="!creatingPost">Guardar cambios</span>
+                  <span v-else class="flex items-center">
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Guardando...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>

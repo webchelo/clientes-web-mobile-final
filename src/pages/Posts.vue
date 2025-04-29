@@ -33,6 +33,7 @@ export default {
             authUser: {
                 id: null,
                 email: null,
+                displayName: null,
             },
             unsubscribeFromAuth: () => {},
 
@@ -148,7 +149,7 @@ export default {
                         <form @submit.prevent="sendPost" class="space-y-4">
                             <div>
                                 <MainLabel class="block text-sm font-medium text-gray-700 mb-1">Autor</MainLabel>
-                                <p class="text-gray-900 font-medium">{{ authUser.email }}</p>
+                                <p class="text-gray-900 font-medium">{{ authUser.displayName ? authUser.displayName : authUser.email }}</p>
                             </div>
                             
                             <div>

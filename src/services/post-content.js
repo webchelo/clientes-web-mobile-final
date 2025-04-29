@@ -15,7 +15,7 @@ export async function getPostById(id) {
         id: postDoc.id,
         user_id: postDoc.data().user_id,
         email: postDoc.data().email,
-        displayName: postDoc.data().displayName,
+        displayName: postDoc.data()?.displayName,
         content: postDoc.data().content,
         title: postDoc.data().title,
         comments: postDoc.data().comments,

@@ -16,7 +16,6 @@ export async function savePost(postData, imageFile) {
       created_at: serverTimestamp()
     });
     
-    
     if (imageFile) {
       const imageUrl = await updateImg(imageFile, postRef.id);
       await updateDoc(postRef, { img: imageUrl });

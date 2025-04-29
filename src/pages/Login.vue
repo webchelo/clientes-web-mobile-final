@@ -42,7 +42,7 @@ export default {
             <!-- Columna izquierda: Imagen del animal -->
             <div class="hidden md:block md:w-1/2 bg-yellow-100">
                 <img 
-                    src="../img/dog-hero.webp" 
+                    src="../img/catdog-hero.webp" 
                     alt="Animal companion"
                     class="w-full h-full object-cover"
                 >
