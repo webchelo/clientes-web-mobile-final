@@ -15,14 +15,11 @@ export default {
     <div class="container mx-auto px-6 md:px-12 lg:px-24 pt-20 pb-32">
       <div class="text-center mb-16">
         <h1 class="text-6xl md:text-8xl lg:text-9xl font-bold text-yellow-600 mb-4">
-          La red social
+          La red social <br /><span class="text-5xl md:text-7xl lg:text-8xl font-bold text-gray-800 italic">de las mascotas</span>
         </h1>
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-gray-800 italic">
-          de las mascotas
-        </h2>
         
         <p class="text-xl md:text-2xl text-gray-600 mt-10 mb-8 max-w-2xl mx-auto">
-          Conecta con otros amantes de mascotas y comparte los mejores momentos de tus mascotas.
+          Conectá con otros amantes de mascotas y compartí los mejores momentos.
         </p>
         
         <RouterLink to="/posts">
@@ -54,7 +51,7 @@ export default {
         <PetPortrait 
           image="hamster-hero"
           alt="Hámster"
-          text="Pequeños amigos"
+          text="Amigos pequeños"
         />
       </div>
     </div>
@@ -62,10 +59,10 @@ export default {
     <!-- Additional CTA -->
     <div class="bg-yellow-200 py-12">
       <div class="container mx-auto text-center px-6">
-        <h3 class="text-3xl md:text-4xl font-bold text-yellow-600 mb-6">¿Qué esperas para unirte?</h3>
+        <h3 class="text-3xl md:text-4xl font-bold text-yellow-600 mb-6">¿Qué esperás para unirte?</h3>
         <RouterLink to="/registro">
           <MainButton>
-            Regístrate gratis
+            Registrate gratis
           </MainButton>
         </RouterLink>
       </div>

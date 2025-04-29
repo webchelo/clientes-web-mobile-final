@@ -53,7 +53,7 @@ export default {
                 <div class="text-center mb-8">
                     <MainH1 class="font-extrabold">Iniciar Sesión</MainH1>
                     <p class="mt-2 text-sm text-gray-600">
-                        Accede a tu cuenta para disfrutar de nuestros servicios
+                        Accedé a tu cuenta para disfrutar de Petbook
                     </p>
                 </div>
 
@@ -97,9 +97,9 @@ export default {
 
                 <div class="mt-6 text-center text-sm text-gray-600">
                     <p>
-                        ¿No tienes una cuenta?
+                        ¿No tenés una cuenta?
                         <router-link to="/register" class="font-medium text-yellow-600 hover:text-yellow-500">
-                            Regístrate
+                            Registrate
                         </router-link>
                     </p>
                 </div>

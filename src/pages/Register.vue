@@ -53,7 +53,7 @@ export default {
                 <div class="text-center mb-8">
                     <MainH1 class="font-extrabold">Crear una Cuenta</MainH1>
                     <p class="mt-2 text-sm text-gray-600">
-                        Únete a nuestra comunidad de amantes de los animales
+                        Unite a nuestra comunidad de amantes de los animales
                     </p>
                 </div>
 
@@ -97,9 +97,9 @@ export default {
 
                 <div class="mt-6 text-center text-sm text-gray-600">
                     <p>
-                        ¿Ya tienes una cuenta?
+                        ¿Ya tenés una cuenta?
                         <router-link to="/login" class="font-medium text-yellow-600 hover:text-yellow-500">
-                            Inicia sesión
+                            Iniciá sesión
                         </router-link>
                     </p>
                 </div>
